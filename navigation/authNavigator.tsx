@@ -1,5 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useSelector } from "react-redux";
 
 // Screens
 import AuthScreen from "../screens/auth_screens/auth";
@@ -11,9 +12,7 @@ const AuthNavigator = () => {
     const {Navigator, Screen} = Auth
 
     return (
-        <Navigator screenOptions={{
-            headerShown: false
-        }}>
+        <Navigator screenOptions={{headerShown: false}}>
             <Screen name="authscreen" component={AuthScreen}/>
         </Navigator>
     )

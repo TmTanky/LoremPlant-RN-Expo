@@ -1,5 +1,5 @@
 import React, { useState, FC } from 'react'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ToastAndroid, Keyboard } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ToastAndroid, Keyboard, ActivityIndicator } from 'react-native'
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { firebase } from "../../firebase/config";
 
@@ -12,6 +12,7 @@ const RegisterMode: FC<Props> = (props) => {
 
     const { changeMode } = props
 
+    const [isLoading, setIsLoading] = useState(false)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
@@ -19,15 +20,19 @@ const RegisterMode: FC<Props> = (props) => {
 
         try {
 
-            const { credential, user, additionalUserInfo } = await firebase.default.auth().createUserWithEmailAndPassword(email, password)
-        
-            console.log(credential, user, additionalUserInfo)
-            Keyboard.dismiss()
+            setIsLoading(true)
+            const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password)
+            await user?.sendEmailVerification()
+            setEmail("")
+            setPassword("")
+            ToastAndroid.showWithGravity('Verify your email.', ToastAndroid.SHORT, ToastAndroid.BOTTOM)
             
         } catch (err) {
-            Keyboard.dismiss()
             ToastAndroid.show(err.message, ToastAndroid.SHORT)
         }
+
+        setIsLoading(false)
+        return Keyboard.dismiss()
 
     } 
 
@@ -56,9 +61,10 @@ const RegisterMode: FC<Props> = (props) => {
                     </View>
                 </View>
 
-                {/* <TextInput style={styles.textInputs} placeholder="Password" /> */}
-                <TouchableOpacity onPress={registerSubmit} style={styles.btnContainer}>
-                    <Text style={{fontFamily: 'monsBold', color: 'white', textTransform: 'uppercase'}} > Register </Text>
+                <TouchableOpacity disabled={isLoading} onPress={registerSubmit} style={styles.btnContainer}>
+                    <Text style={{fontFamily: 'monsBold', color: 'white', textTransform: 'uppercase'}} >
+                        { isLoading ? <ActivityIndicator color="white" size="small" /> : 'Register' }
+                    </Text>
                 </TouchableOpacity>
             </View>
             <Text style={styles.switchMode} onPress={() => changeMode('login')}> Already have an account? Sign in here. </Text>
