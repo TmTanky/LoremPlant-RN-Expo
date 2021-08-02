@@ -1,5 +1,5 @@
 import React from 'react';
-import MainNavigator from './navigation/mainNavigator';
+import { MainNavigator } from './navigation/mainNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';

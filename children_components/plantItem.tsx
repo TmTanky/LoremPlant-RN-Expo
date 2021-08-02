@@ -13,7 +13,9 @@ export const PlantItem: FC<Props> = (props) => {
     const {name, imgUrl, goodFor} = props
 
     return (
-        <TouchableOpacity key={name} style={styles.rootItem} >
+        <TouchableOpacity onPress={() => {
+            console.log(name)
+        }} key={name} style={styles.rootItem} >
             <View style={styles.imgContainer}>
                 <Image style={styles.img} source={{uri: imgUrl}} />
             </View>
@@ -42,7 +44,8 @@ const styles = StyleSheet.create({
     },
     img: {
         height: '100%',
-        width: '100%'
+        width: '100%',
+        borderRadius: 8
     },
     info: {
         marginTop: 10,

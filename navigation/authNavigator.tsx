@@ -1,22 +1,17 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import { useSelector } from "react-redux";
+import { createStackNavigator } from '@react-navigation/stack'
 
 // Screens
 import AuthScreen from "../screens/auth_screens/auth";
 
 const Auth = createStackNavigator()
 
-const AuthNavigator = () => {
-
-    const {Navigator, Screen} = Auth
+export const AuthNavigator = () => {
 
     return (
-        <Navigator screenOptions={{headerShown: false}}>
-            <Screen name="authscreen" component={AuthScreen}/>
-        </Navigator>
+        <Auth.Navigator>
+            <Auth.Screen name="authscreen" component={AuthScreen} />
+        </Auth.Navigator>
     )
 
 }
-
-export default AuthNavigator
