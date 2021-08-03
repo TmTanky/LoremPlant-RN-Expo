@@ -4,7 +4,8 @@ import { firebase } from "../firebase/config";
 
 // Navigators
 import { AuthNavigator } from "./authNavigator";
-import { HomeNavigator, BottomTabNavigator, DrawerNavigator, TaeNavigator } from "./homeNavigator";
+import { HomeNavigator, BottomTabNavigator, DrawerNavigator } from "./homeNavigator";
+import { DrawerNavigator as NewDrawer } from "../sampleNavigation/home";
 
 // Types
 import { Iuser } from "../ts/types";
@@ -33,7 +34,7 @@ export const MainNavigator = () => {
                 }} component={AuthNavigator}/> : 
                 <Main.Screen name="MAIN_HOME" options={{
                     headerShown: false
-                }} component={HomeNavigator}/>
+                }} component={NewDrawer}/>
             }
 
         </Main.Navigator>

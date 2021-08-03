@@ -8,18 +8,19 @@ import { firebase } from "../firebase/config";
 
 // Screens
 import HomeScreen from "../screens/home_screens/home";
-import FavScreen from "../screens/home_screens/search";
+import SearchScreen from "../screens/home_screens/search";
 
 // Custom Buttons
 import { customBtn } from "../children_components/customBtns";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { CategoriesNavigator } from "./categoriesNavigator";
 import { Text } from "react-native";
+import PlantDetail from "../screens/home_screens/plantDetail";
 
 const Home = createStackNavigator()
 const BottomTab = createMaterialBottomTabNavigator()
 const Drawer = createDrawerNavigator()
-const Tae = createStackNavigator()
+// const Tae = createStackNavigator()
 
 export const BottomTabNavigator = () => {
 
@@ -35,7 +36,7 @@ export const BottomTabNavigator = () => {
                 },
                 title: 'Home'
             }} />
-            <BottomTab.Screen name="favtab" component={FavScreen} options={{
+            <BottomTab.Screen name="favtab" component={SearchScreen} options={{
                 tabBarIcon: () => {
                     return <Ionicons name="ios-search-sharp" size={25} color="white" />
                 },
@@ -50,15 +51,17 @@ export const HomeNavigator: FC = (props: any) => {
 
     return (
         <Home.Navigator>
+            
             <Home.Screen options={{
                 headerLeft: () => {
                     return <HeaderButtons HeaderButtonComponent={customBtn} >
                         <Item title="menusdf" iconName="menu" onPress={() => props.navigation.dispatch(DrawerActions.toggleDrawer())} /> 
                     </HeaderButtons>
                 },
-                title: 'Home',
+                title: 'LoremPlant',
                 headerTitleAlign: 'center',
             }} name="homescreen" component={DrawerNavigator} />
+            
         </Home.Navigator>
     )
 
@@ -83,22 +86,22 @@ export const DrawerNavigator: FC = (props: any) => {
 
 }
 
-export const TaeNavigator: FC = (props: any) => {
+// export const TaeNavigator: FC = (props: any) => {
 
-    // console.log(props)
+//     // console.log(props)
 
-    return (
-        <Tae.Navigator screenOptions={{
-            headerLeft: () => {
-                return <HeaderButtons HeaderButtonComponent={customBtn} >
-                    <Item title="menusdf" iconName="menu" onPress={() => props.navigation.dispatch(DrawerActions.toggleDrawer())} /> 
-                </HeaderButtons>
-            }
-        }} >
+//     return (
+//         <Tae.Navigator screenOptions={{
+//             headerLeft: () => {
+//                 return <HeaderButtons HeaderButtonComponent={customBtn} >
+//                     <Item title="menusdf" iconName="menu" onPress={() => props.navigation.dispatch(DrawerActions.toggleDrawer())} /> 
+//                 </HeaderButtons>
+//             }
+//         }} >
 
-            <Tae.Screen name="taenav" component={DrawerNavigator} />
+//             <Tae.Screen name="taenav" component={DrawerNavigator} />
 
-        </Tae.Navigator>
-    )
+//         </Tae.Navigator>
+//     )
 
-}
+// }

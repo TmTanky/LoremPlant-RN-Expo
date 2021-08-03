@@ -10,7 +10,7 @@ export const CategoriesNavigator = () => {
 
     return (
         <Categories.Navigator>
-            <Categories.Screen name="categoriesscreen" component={CategoriesScreen} />
+            <Categories.Screen name="Categories" component={CategoriesScreen} />
         </Categories.Navigator>
     )
 

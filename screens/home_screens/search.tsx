@@ -1,15 +1,20 @@
-import React, { useState } from "react";
-import { FC } from "react";
+import React, { useState, FC } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from "react-redux";
+import { createStackNavigator } from "@react-navigation/stack";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { DrawerActions } from "@react-navigation/routers";
+
+// Components
+import { customBtn } from "../../children_components/customBtns";
 
 // Types
 import { Istate } from "../../ts/types";
 
 {/* <Image height={100} width={100} source={require('../../assets/plant-vector.svg')} /> */}
 
-const FavScreen: FC = (props: any) => {
+const SearchScreen: FC = (props: any) => {
 
     // console.log(props)
     const [userInput, setUserInput] = useState("")
@@ -57,8 +62,7 @@ const FavScreen: FC = (props: any) => {
 
 }
 
-
-export default FavScreen
+export default SearchScreen
 
 const styles = StyleSheet.create({
     root: {
@@ -109,3 +113,30 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.3
     }
 })
+
+const Search = createStackNavigator()
+
+export const SearchSearch: FC = (props: any) => {
+
+    return (
+        <Search.Navigator>
+            <Search.Screen options={{
+                title: 'Search',
+                headerStyle: {
+                    backgroundColor: '#62BD69'
+                },
+                headerTintColor: 'white',
+                headerTitleStyle: {
+                    fontFamily: 'monsBold',
+                },
+                headerTitleAlign: 'center',
+                headerLeft: () => {
+                    return <HeaderButtons HeaderButtonComponent={customBtn} >
+                        <Item title="menusdf" color="white" iconName="menu" onPress={() => props.navigation.dispatch(DrawerActions.toggleDrawer())} /> 
+                    </HeaderButtons>
+                }
+            }} name="tangina" component={SearchScreen} />
+        </Search.Navigator>
+    )
+
+}

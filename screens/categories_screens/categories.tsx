@@ -9,16 +9,37 @@ const CategoriesScreen: FC = () => {
     // console.log(Dimensions.get('screen').width)
     // Dimensions.get('screen').width
 
-    const [isJin, setIsJin] = useState(false)
-    const [isDVJ, setIsDVJ] = useState(false)
-    const [isKazuya, setIsKazuya] = useState(false)
-    const [isHeihachi, setIsHeihachi] = useState(false)
+    const [isIndoor, setIsIndoor] = useState(false)
+    const [isOutdoor, setIsOutdoor] = useState(false)
+    const [isDry, setIsDry] = useState(false)
+    const [isRainy, setIsRainy] = useState(false)
 
     return (
         <View style={styles.rootBox}>
             
-            <View style={{flex: 2}}>
-                <FlatList style={styles.windowRoot} data={CATEGORIES_DATA} keyExtractor={item => item.title} numColumns={2} renderItem={(item) => {
+            <View style={{flex: 1, marginTop: 20}}>
+
+                <View style={styles.options}> 
+                    <Text style={{fontFamily: 'monsMed'}} > Indoor </Text>
+                    <Switch thumbColor='#62BD69' value={isIndoor} onValueChange={setIsIndoor} />
+                </View>
+
+                <View style={styles.options}> 
+                    <Text style={{fontFamily: 'monsMed'}} > Outdoor </Text>
+                    <Switch thumbColor='#62BD69' value={isOutdoor} onValueChange={setIsOutdoor} />
+                </View>
+
+                <View style={styles.options}> 
+                    <Text style={{fontFamily: 'monsMed'}} > Dry </Text>
+                    <Switch thumbColor='#62BD69' value={isDry} onValueChange={setIsDry} />
+                </View>
+
+                <View style={styles.options}> 
+                    <Text style={{fontFamily: 'monsMed'}} > Rainy </Text>
+                    <Switch thumbColor='#62BD69' value={isRainy} onValueChange={setIsRainy} />
+                </View>
+
+                {/* <FlatList style={styles.windowRoot} data={CATEGORIES_DATA} keyExtractor={item => item.title} numColumns={2} renderItem={(item) => {
 
                 const { item: { id, title }} = item
 
@@ -30,7 +51,7 @@ const CategoriesScreen: FC = () => {
                         </View>
                     </ImageBackground>
                 )
-                }} />
+                }} /> */}
             </View>
 
             <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center', marginTop: 30}}>
@@ -83,6 +104,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#62BD69',
         height: 30,
         width: 100,
-        borderRadius: 10
+        borderRadius: 3
+    },
+    options: {
+        // backgroundColor: 'red',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        height: 50,
+        marginHorizontal: 10,
+        marginVertical: 3
     }
 })
