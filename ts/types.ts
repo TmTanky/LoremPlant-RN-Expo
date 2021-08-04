@@ -18,7 +18,10 @@ export interface Istate {
 export interface Iplant {
     id: string
     name: string
-    goodFor: string
+    light: string
+    watering: string
+    propagate: string
+    type: string
     description: string
     imgUrl: string
 }

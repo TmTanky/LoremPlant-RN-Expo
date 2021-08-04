@@ -1,63 +1,55 @@
 import React, { FC, useState } from "react";
 import { View, Text, Switch, StyleSheet, FlatList, Dimensions, ImageBackground, TouchableOpacity } from 'react-native'
+import { useNavigation } from "@react-navigation/core";
+import plant1 from '../../assets/plant1.png'
+import plant2 from '../../assets/plant2.png'
+import plant3 from '../../assets/plant3.png'
+import plant4 from '../../assets/plant4.png'
 
 // Datas
 import { CATEGORIES_DATA } from "../../data/categoriesData";
 
 const CategoriesScreen: FC = () => {
 
-    // console.log(Dimensions.get('screen').width)
-    // Dimensions.get('screen').width
+    const nav = useNavigation()
 
-    const [isIndoor, setIsIndoor] = useState(false)
-    const [isOutdoor, setIsOutdoor] = useState(false)
-    const [isDry, setIsDry] = useState(false)
-    const [isRainy, setIsRainy] = useState(false)
+    const pickedImg = (id: string) => {
+
+        switch(id) {
+            case '1':
+                return plant1
+            case '2':
+                return plant2
+            case '3':
+                return plant3
+            case '4':
+                return plant4
+        }
+
+    }
 
     return (
         <View style={styles.rootBox}>
             
             <View style={{flex: 1, marginTop: 20}}>
 
-                <View style={styles.options}> 
-                    <Text style={{fontFamily: 'monsMed'}} > Indoor </Text>
-                    <Switch thumbColor='#62BD69' value={isIndoor} onValueChange={setIsIndoor} />
-                </View>
+                <FlatList style={styles.windowRoot} data={CATEGORIES_DATA} keyExtractor={item => item.title} numColumns={2} renderItem={(item) => {
 
-                <View style={styles.options}> 
-                    <Text style={{fontFamily: 'monsMed'}} > Outdoor </Text>
-                    <Switch thumbColor='#62BD69' value={isOutdoor} onValueChange={setIsOutdoor} />
-                </View>
-
-                <View style={styles.options}> 
-                    <Text style={{fontFamily: 'monsMed'}} > Dry </Text>
-                    <Switch thumbColor='#62BD69' value={isDry} onValueChange={setIsDry} />
-                </View>
-
-                <View style={styles.options}> 
-                    <Text style={{fontFamily: 'monsMed'}} > Rainy </Text>
-                    <Switch thumbColor='#62BD69' value={isRainy} onValueChange={setIsRainy} />
-                </View>
-
-                {/* <FlatList style={styles.windowRoot} data={CATEGORIES_DATA} keyExtractor={item => item.title} numColumns={2} renderItem={(item) => {
-
-                const { item: { id, title }} = item
+                const { item: { title, type, id }} = item
 
                 return (
-                    <ImageBackground source={{uri: 'https://images.unsplash.com/photo-1521334884684-d80222895322?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=750&q=80'}} style={styles.windowCat}>
-                        <View style={styles.windowOpts}>
-                            <Text style={{fontFamily: 'monsReg', color: 'white', marginLeft: 8}} > {title} </Text>
-                            <Switch/>
-                        </View>
-                    </ImageBackground>
+                    <TouchableOpacity onPress={() => {
+                        nav.navigate('plantcategory', { type: title, id: type })
+                    }} style={{flex: 1}}>
+                        <ImageBackground source={pickedImg(id)} style={styles.windowCat}>
+                            <View style={styles.windowOpts}>
+                                <Text style={{fontFamily: 'monsReg', color: '#62BD69', marginLeft: 8}} > {title} </Text>
+                            </View>
+                        </ImageBackground>
+                    </TouchableOpacity>
                 )
-                }} /> */}
-            </View>
+                }} />
 
-            <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center', marginTop: 30}}>
-                <TouchableOpacity style={styles.applyBtn}>
-                    <Text style={{fontFamily: 'monsReg', color: 'white'}}> Apply </Text>
-                </TouchableOpacity>
             </View>
 
         </View>
@@ -70,7 +62,7 @@ export default CategoriesScreen
 const styles = StyleSheet.create({
     rootBox: {
         flex: 1,
-        // backgroundColor: 'red',
+        backgroundColor: '#ECECE9',
         justifyContent: 'center',
         // alignItems: 'center'
     },
@@ -80,22 +72,22 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     windowCat: {
-        // backgroundColor: 'yellow',
+        backgroundColor: 'whitesmoke',
         // width: '50%',
         flex: 1,
         height: 200,
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
         margin: 5,
-        borderRadius: 8,
+        borderRadius: 20,
         overflow: "hidden"
     },
     windowOpts: {
         flexDirection: 'row',
-        backgroundColor: '#62BD69',
+        // backgroundColor: '#62BD69',
         width: '100%',
         height: '15%',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
     },
     applyBtn: {

@@ -70,7 +70,7 @@ export const DrawerNavigator: FC = (props: any) => {
 export const BottomTabNavigator = () => {
 
     return (
-        <BottomTab.Navigator activeColor="white"  barStyle={{
+        <BottomTab.Navigator activeColor="white" inactiveColor="#62BD69"  barStyle={{
             backgroundColor: '#62BD69',
             height: 65,
             justifyContent: 'center',

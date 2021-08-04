@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { firebase } from "../firebase/config";
+import AppLoading from "expo-app-loading";
 
 // Navigators
 import { AuthNavigator } from "./authNavigator";
@@ -15,6 +16,19 @@ const Main = createStackNavigator()
 export const MainNavigator = () => {
 
     const [user, setUser] = useState<Iuser>()
+    const [isAuth, setIsAuth] = useState<boolean>()
+
+    const getUser = () => {
+        
+        const user = firebase.auth().currentUser
+
+        if (!user) {
+            return setIsAuth(false)
+        }
+
+        return setIsAuth(true)
+
+    }
 
     useEffect(() => {
 
@@ -25,10 +39,20 @@ export const MainNavigator = () => {
         return () => unsubscribe()
     }, [])
 
+    useEffect(() => {
+
+        getUser()
+
+    }, [user])
+
+    if (isAuth == undefined) {
+        return <AppLoading/>
+    }
+
     return (
         <Main.Navigator> 
 
-            { !user ?
+            { isAuth === false && !user ?
                 <Main.Screen name="MAIN_AUTH" options={{
                     headerShown: false
                 }} component={AuthNavigator}/> : 

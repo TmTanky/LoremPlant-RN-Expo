@@ -10,7 +10,9 @@ export const AuthNavigator = () => {
 
     return (
         <Auth.Navigator>
-            <Auth.Screen name="authscreen" component={AuthScreen} />
+            <Auth.Screen options={{
+                headerShown: false
+            }} name="authscreen" component={AuthScreen} />
         </Auth.Navigator>
     )
 

@@ -5,12 +5,16 @@ import { useSelector } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { DrawerActions } from "@react-navigation/routers";
+import { useNavigation } from "@react-navigation/core";
 
 // Components
 import { customBtn } from "../../children_components/customBtns";
 
 // Types
 import { Istate } from "../../ts/types";
+
+// Components
+import PlantFullDetails from "../../components/plants/plantFullDetails";
 
 {/* <Image height={100} width={100} source={require('../../assets/plant-vector.svg')} /> */}
 
@@ -19,6 +23,7 @@ const SearchScreen: FC = (props: any) => {
     // console.log(props)
     const [userInput, setUserInput] = useState("")
     const allPlants = useSelector((state: Istate) => state.plants)
+    const nav = useNavigation()
 
     const SubmitSearch = () => {
 
@@ -29,7 +34,9 @@ const SearchScreen: FC = (props: any) => {
                     <Text style={{textAlign: 'center', fontFamily: 'monsBold', color: '#62BD69'}} > Search a plant </Text>
                 </View> : allPlants.map(item => {
                     return (
-                        item.name.includes(userInput) ? <TouchableOpacity style={styles.itemResults} key={item.id}>
+                        item.name.includes(userInput) ? <TouchableOpacity onPress={() => {
+                            nav.navigate('jusmiyo', { title: item.name })
+                        }} style={styles.itemResults} key={item.id}>
                             <Text style={{fontFamily: 'monsReg', color: 'black'}}> {item.name} </Text>
                         </TouchableOpacity> : null
                     )
@@ -67,7 +74,7 @@ export default SearchScreen
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        // backgroundColor: 'red'
+        backgroundColor: '#ECECE9',
         justifyContent: 'center',
         // alignItems: 'center'
     },
@@ -136,6 +143,22 @@ export const SearchSearch: FC = (props: any) => {
                     </HeaderButtons>
                 }
             }} name="tangina" component={SearchScreen} />
+
+            <Search.Screen options={(props) => {
+                const { title } = props.route.params as { title: string }
+
+                return {
+                    headerTitle: title,
+                    headerStyle: {
+                        backgroundColor: '#62BD69'
+                    },
+                    headerTintColor: 'white',
+                    headerTitleStyle: {
+                        fontFamily: 'monsMed',
+                    }
+                }
+            }} name="jusmiyo" component={PlantFullDetails} /> 
+
         </Search.Navigator>
     )
 

@@ -1,30 +1,29 @@
 import React, { FC } from 'react'
 import { TouchableOpacity, Text, Image, View, StyleSheet, TouchableNativeFeedback } from 'react-native'
 
+type GoTo = (a: string, b: string) => void
+
 interface Props {
     name: string
     imgUrl: string
     description?: string
-    goodFor?: string
+    goTo?: GoTo
 }
 
 export const PlantItem: FC<Props> = (props: any) => {
 
-    const {name, imgUrl, goodFor} = props as {name: string, imgUrl: string, goodFor: string}
+    const { name, imgUrl, goTo } = props as {name: string, imgUrl: string, goTo: GoTo}
 
     return (
 
         <View style={sample.root}>
-            <TouchableOpacity onPress={() => {
-                props.navigation.navigate('plantdetail', { title: name })
-            }} style={sample.items}>
+            <TouchableOpacity onPress={() => goTo('plantdetail', name)} style={sample.items}>
                 <View style={sample.imgContainer}>
                     <Image style={sample.img} source={{uri: imgUrl}} />
                 </View>
 
                 <View style={sample.info}>
                     <Text style={{fontFamily: 'monsBold', fontSize: 20, color: '#62BD69'}} > {name} </Text>
-                    <Text style={{fontFamily: 'monsReg'}} > {goodFor} </Text>
                 </View> 
             </TouchableOpacity>
         </View>
@@ -66,14 +65,14 @@ const sample = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#ECECE9'
     },
     items: {
         flex: 1,
         // backgroundColor: 'yellow',
         width: '93%',
-        height: 400,
+        height: 350,
         margin: 5,
-        marginVertical: 15
     },
     imgContainer: {
         height: '80%',
@@ -86,7 +85,7 @@ const sample = StyleSheet.create({
     },
     info: {
         marginTop: 10,
-        height: '20%',
+        height: '15%',
         width: '100%',
         borderBottomColor: 'black',
         borderBottomWidth: 0.2

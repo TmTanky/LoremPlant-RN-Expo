@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, StyleSheet } from 'react-native'
 import { useSelector } from "react-redux";
 import { Istate } from "../../ts/types";
 
-const PlantDetail: FC = (props: any) => {
+const PlantFullDetails: FC = (props: any) => {
 
     const { title } = props.route.params as {title: string}
     const allPlants = useSelector((state: Istate) => state.plants)
@@ -30,7 +30,7 @@ const PlantDetail: FC = (props: any) => {
 
 }
 
-export default PlantDetail
+export default PlantFullDetails
 
 const styles = StyleSheet.create({
     root: {
@@ -51,6 +51,5 @@ const styles = StyleSheet.create({
     info: {
         marginTop: 20,
         marginHorizontal: 15
-        // backgroundColor: 'yellow'
     }
 })

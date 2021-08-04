@@ -31,9 +31,9 @@ export const loadPlants = () => {
             const allPlants = [] as Iplant[]
 
             snapshot.forEach((doc) => {
-                const { name, description, goodFor, imgUrl} = doc.data() as Iplant
+                const { name, description, imgUrl, light, propagate, type, watering} = doc.data() as Iplant
                 // allPlants.push(doc.data() as Iplant)
-                const plant = new Plant(doc.id, name, goodFor, description, imgUrl)
+                const plant = new Plant(doc.id, name, description, imgUrl, watering, light, propagate, type)
                 allPlants.push(plant)
             })
 
