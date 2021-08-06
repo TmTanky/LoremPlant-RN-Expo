@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { View, Text, Switch, StyleSheet, FlatList, Dimensions, ImageBackground, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ImageBackground, TouchableHighlight } from 'react-native'
 import { useNavigation } from "@react-navigation/core";
 import plant1 from '../../assets/plant1.png'
 import plant2 from '../../assets/plant2.png'
@@ -31,14 +31,16 @@ const CategoriesScreen: FC = () => {
     return (
         <View style={styles.rootBox}>
             
-            <View style={{flex: 1, marginTop: 20}}>
+            <View  style={{flex: 1, marginTop: 20}}>
+
+                <Text style={{textAlign: 'center', fontFamily: 'monsBold', fontSize: 20, color: '#62BD69'}}> Plants </Text>
 
                 <FlatList style={styles.windowRoot} data={CATEGORIES_DATA} keyExtractor={item => item.title} numColumns={2} renderItem={(item) => {
 
                 const { item: { title, type, id }} = item
 
                 return (
-                    <TouchableOpacity onPress={() => {
+                    <TouchableHighlight underlayColor="transparent" onPress={() => {
                         nav.navigate('plantcategory', { type: title, id: type })
                     }} style={{flex: 1}}>
                         <ImageBackground source={pickedImg(id)} style={styles.windowCat}>
@@ -46,7 +48,7 @@ const CategoriesScreen: FC = () => {
                                 <Text style={{fontFamily: 'monsReg', color: '#62BD69', marginLeft: 8}} > {title} </Text>
                             </View>
                         </ImageBackground>
-                    </TouchableOpacity>
+                    </TouchableHighlight>
                 )
                 }} />
 
@@ -62,7 +64,6 @@ export default CategoriesScreen
 const styles = StyleSheet.create({
     rootBox: {
         flex: 1,
-        backgroundColor: '#ECECE9',
         justifyContent: 'center',
         // alignItems: 'center'
     },
@@ -72,15 +73,16 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     windowCat: {
-        backgroundColor: 'whitesmoke',
+        backgroundColor: 'white',
         // width: '50%',
         flex: 1,
         height: 200,
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
         margin: 5,
-        borderRadius: 20,
-        overflow: "hidden"
+        borderRadius: 15,
+        overflow: "hidden",
+        elevation: 1
     },
     windowOpts: {
         flexDirection: 'row',

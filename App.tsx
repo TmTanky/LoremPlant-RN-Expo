@@ -8,6 +8,16 @@ import { LogBox } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from './redux/store/store';
 
+// Initialized DB
+import { initialized } from './db/config'
+
+initialized().then(() => {
+  console.log('done')
+}).catch(() => {
+  console.log('failed')
+})
+
+
 // const client = new QueryClient()
 
 LogBox.ignoreLogs(['Setting a timer for a long period of time'])
@@ -18,7 +28,7 @@ const App = () => {
     monsReg: require('./assets/fonts/Montserrat-Regular.ttf'),
     monsMed: require('./assets/fonts/Montserrat-Medium.ttf'),
     monsBold: require('./assets/fonts/Montserrat-Bold.ttf')
-  }) 
+  })
 
   if (!loading) return <AppLoading/>
 

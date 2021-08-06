@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react";
+import React, { useState, FC, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from "react-redux";
@@ -20,10 +20,18 @@ import PlantFullDetails from "../../components/plants/plantFullDetails";
 
 const SearchScreen: FC = (props: any) => {
 
-    // console.log(props)
     const [userInput, setUserInput] = useState("")
     const allPlants = useSelector((state: Istate) => state.plants)
     const nav = useNavigation()
+
+    useEffect(() => {
+        
+        const unsubscribe = props.navigation.addListener('blur', () => {
+            setUserInput("")
+        })
+
+        return unsubscribe
+    }, [])
 
     const SubmitSearch = () => {
 
@@ -74,7 +82,6 @@ export default SearchScreen
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: '#ECECE9',
         justifyContent: 'center',
         // alignItems: 'center'
     },

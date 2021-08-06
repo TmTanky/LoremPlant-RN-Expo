@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { TouchableOpacity, Text, Image, View, StyleSheet, TouchableNativeFeedback } from 'react-native'
+import { Text, Image, View, StyleSheet, TouchableHighlight } from 'react-native'
 
 type GoTo = (a: string, b: string) => void
 
@@ -17,15 +17,17 @@ export const PlantItem: FC<Props> = (props: any) => {
     return (
 
         <View style={sample.root}>
-            <TouchableOpacity onPress={() => goTo('plantdetail', name)} style={sample.items}>
-                <View style={sample.imgContainer}>
-                    <Image style={sample.img} source={{uri: imgUrl}} />
-                </View>
+            <TouchableHighlight underlayColor="transparent" onPress={() => goTo('plantdetail', name)} style={sample.items}>
+                <View>
+                    <View style={sample.imgContainer}>
+                        <Image style={sample.img} source={{uri: imgUrl}} />
+                    </View>
 
-                <View style={sample.info}>
-                    <Text style={{fontFamily: 'monsBold', fontSize: 20, color: '#62BD69'}} > {name} </Text>
-                </View> 
-            </TouchableOpacity>
+                    <View style={sample.info}>
+                        <Text style={{fontFamily: 'monsBold', fontSize: 20, color: '#62BD69'}} > {name} </Text>
+                    </View> 
+                </View>
+            </TouchableHighlight>
         </View>
     )
 
@@ -65,7 +67,7 @@ const sample = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ECECE9'
+        // backgroundColor: '#ECECE9'
     },
     items: {
         flex: 1,

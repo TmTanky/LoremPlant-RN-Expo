@@ -1,5 +1,5 @@
 import React, { useEffect, useState, FC } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground, ScrollView, FlatList } from 'react-native'
+import { StyleSheet, FlatList, ToastAndroid } from 'react-native'
 import { createStackNavigator } from "@react-navigation/stack";
 import { Istate } from "../../ts/types";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,37 +12,37 @@ import PlantDetail from "./plantDetail";
 import { PlantItem } from "../../components/plants/plantItem";
 
 // Redux
-import { loadPlants } from "../../redux/actions/actions";
+import { loadPlants } from "../../redux/actions/plants";
+import { addToFavorites } from "../../redux/actions/favorites";
 
 const HomeScreen: FC = (props: any) => {
 
     const dispatch = useDispatch()
+    const [refreshState, setRefreshState] = useState(false)
     const allPlants = useSelector((state: Istate) => state.plants).slice(0, 5)
-    const goTo = (routeName: string, param: string) => {
-
-        props.navigation.navigate(routeName, { title: param })
-
-    }
 
     useEffect(() => {
 
         dispatch(loadPlants())
 
     }, [])
+    
+    const goTo = (routeName: string, param: string) => {
 
+        props.navigation.navigate(routeName, { title: param })
 
-    // return (
-    //     <ScrollView style={styles.rootScrollView}>
+    }
+    
+    const refetchData = () => {
 
-    //         { allPlants.map(item => {
-    //             return <PlantItem {...props} key={item.id} goTo={goTo} name={item.name} imgUrl={item.imgUrl} />
-    //         }) }
+        // setRefreshState(true)
+        dispatch(loadPlants())
+        // setRefreshState(false)
 
-    //     </ScrollView>
-    // )
+    }
 
     return (
-        <FlatList style={styles.rootScrollView} data={allPlants} keyExtractor={item => item.id} renderItem={({item}) => {
+        <FlatList refreshing={refreshState} onRefresh={refetchData} style={styles.rootScrollView} data={allPlants} keyExtractor={item => item.id} renderItem={({item}) => {
             return <PlantItem {...props} key={item.id} goTo={goTo} name={item.name} imgUrl={item.imgUrl} />
         }} />
     )
@@ -54,7 +54,6 @@ export default HomeScreen
 const styles = StyleSheet.create({
     rootScrollView: {
         paddingTop: 30,
-        backgroundColor: '#ECECE9'
     }
 })
 
@@ -64,11 +63,13 @@ const Home = createStackNavigator()
 
 function getHeaderTitle(route: any) {
   const routeName = route.params.title
-
   return routeName
 }
 
 export const HomeHome: FC = (props: any) => {
+
+    const dispatch = useDispatch()
+    const allPlants = useSelector((state: Istate) => state.plants).slice(0, 5)
 
     return (
         <Home.Navigator>
@@ -91,6 +92,10 @@ export const HomeHome: FC = (props: any) => {
             }} name="yawa" component={HomeScreen} />
 
             <Home.Screen options={(props) => {
+
+                // console.log(getHeaderTitle(props.route))
+                const selectedPlant = allPlants.find(item => item.name === getHeaderTitle(props.route))
+
                 return {
                     headerTitle: getHeaderTitle(props.route),
                     headerStyle: {
@@ -99,6 +104,14 @@ export const HomeHome: FC = (props: any) => {
                     headerTintColor: 'white',
                     headerTitleStyle: {
                         fontFamily: 'monsMed',
+                    },
+                    headerRight: () => {
+                        return <HeaderButtons HeaderButtonComponent={customBtn} >
+                            <Item onPress={() => {
+                                dispatch(addToFavorites(selectedPlant!.name, selectedPlant!.id))
+                                ToastAndroid.showWithGravity('Added!', ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+                            }} iconName="content-save" title="save" iconSize={25} color="white" />
+                        </HeaderButtons>
                     }
                 }
             }} name="plantdetail" component={PlantDetail} />

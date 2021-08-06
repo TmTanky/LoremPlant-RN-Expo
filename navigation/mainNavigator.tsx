@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { firebase } from "../firebase/config";
 import AppLoading from "expo-app-loading";
+import { useDispatch } from "react-redux";
 
 // Navigators
 import { AuthNavigator } from "./authNavigator";
 import { HomeNavigator, BottomTabNavigator, DrawerNavigator } from "./homeNavigator";
 import { DrawerNavigator as NewDrawer } from "../sampleNavigation/home";
+
+// Firebase
+import { firebase } from "../firebase/config";
 
 // Types
 import { Iuser } from "../ts/types";

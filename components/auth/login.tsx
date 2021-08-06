@@ -75,7 +75,7 @@ const LoginMode: FC<Props> = (props) => {
                         { isLoading ? <ActivityIndicator color="white" size="small" /> : 'Login' }
                     </Text>
                 </TouchableOpacity>
-                {/* { isLoading ? <ActivityIndicator color="#62BD69" size="small" /> :  } */}
+                
             </View>
             <Text style={styles.switchMode} onPress={() => changeMode('register')}> Register for an account. </Text>
         </View>

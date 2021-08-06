@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, FlatList, TouchableHighlight, Image } from 'react-native'
 import { createStackNavigator } from "@react-navigation/stack";
 import { useRoute, useNavigation } from "@react-navigation/core";
 import { useSelector } from "react-redux";
@@ -34,15 +34,17 @@ const PlantCategory: FC = (props: any) => {
 
             return (
                 <View style={sample.root}>
-                    <TouchableOpacity onPress={() => nav.navigate('qweqwe', { title: name })} style={sample.items}>
-                        <View style={sample.imgContainer}>
-                            <Image style={sample.img} source={{uri: imgUrl}} />
-                        </View>
+                    <TouchableHighlight underlayColor="transparent" onPress={() => nav.navigate('qweqwe', { title: name })} style={sample.items}>
+                        <View>
+                            <View style={sample.imgContainer}>
+                                <Image style={sample.img} source={{uri: imgUrl}} />
+                            </View>
 
-                        <View style={sample.info}>
-                            <Text style={{fontFamily: 'monsBold', fontSize: 20, color: '#62BD69'}} > {name} </Text>
-                        </View> 
-                    </TouchableOpacity>
+                            <View style={sample.info}>
+                                <Text style={{fontFamily: 'monsBold', fontSize: 20, color: '#62BD69'}} > {name} </Text>
+                            </View> 
+                        </View>
+                    </TouchableHighlight>
                 </View>
             )
 

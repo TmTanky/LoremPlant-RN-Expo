@@ -13,6 +13,7 @@ export interface Istate {
     auth: Iuser
     theme: mode
     plants: Iplant[]
+    favs: IFav[]
 }
 
 export interface Iplant {
@@ -24,4 +25,10 @@ export interface Iplant {
     type: string
     description: string
     imgUrl: string
+}
+
+export interface IFav {
+    id: string
+    name: string
+    plantId: string
 }

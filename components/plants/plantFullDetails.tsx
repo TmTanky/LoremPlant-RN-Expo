@@ -17,12 +17,12 @@ const PlantFullDetails: FC = (props: any) => {
             </View>
 
             <View style={{...styles.info, flex: 2}}>
-                <Text style={{fontFamily: 'monsBold', marginBottom: 15, color: '#62BD69', fontSize: 20}} > {selectedPlant.name} </Text>
-                <Text style={{fontFamily: 'monsReg', marginBottom: 20}} > {selectedPlant.description} </Text>
-                <Text style={{fontFamily: 'monsReg', marginBottom: 20}} > Type: {selectedPlant.type} </Text>
-                <Text style={{fontFamily: 'monsReg', marginBottom: 20}} > Light: {selectedPlant.light} </Text>
-                <Text style={{fontFamily: 'monsReg', marginBottom: 20}} > Watering: {selectedPlant.watering} </Text>
-                <Text style={{fontFamily: 'monsReg', marginBottom: 20}} > Propagation: {selectedPlant.propagate} </Text>
+                <Text style={{fontFamily: 'monsBold', marginBottom: 15, color: '#62BD69', fontSize: 23}} > {selectedPlant.name} </Text>
+                <Text style={{fontFamily: 'monsReg', marginBottom: 20, fontSize: 16}} > {selectedPlant.description} </Text>
+                <Text style={{fontFamily: 'monsReg', marginBottom: 20, fontSize: 16}} > <Text style={{color: '#62BD69'}} > Type: </Text> {selectedPlant.type} </Text>
+                <Text style={{fontFamily: 'monsReg', marginBottom: 20, fontSize: 16}} > <Text style={{color: '#62BD69'}} > Light: </Text> {selectedPlant.light} </Text>
+                <Text style={{fontFamily: 'monsReg', marginBottom: 20, fontSize: 16}} > <Text style={{color: '#62BD69'}} > Watering: </Text> {selectedPlant.watering} </Text>
+                <Text style={{fontFamily: 'monsReg', marginBottom: 20, fontSize: 16}} > <Text style={{color: '#62BD69'}} > Propagation: </Text> {selectedPlant.propagate} </Text>
             </View>
 
         </ScrollView>

@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { DrawerActions } from "@react-navigation/routers";
-import { View, Text } from 'react-native'
 
 // CustomBtn
 import { customBtn } from "../children_components/customBtns";
