@@ -1,13 +1,20 @@
 import React, { FC } from "react";
 import { View, Text, Image, ScrollView, StyleSheet } from 'react-native'
 import { useSelector } from "react-redux";
+
+// Types
 import { Istate } from "../../ts/types";
+
+// DB Helpers
+import { checkIfFav } from "../../db/config";
 
 const PlantDetail: FC = (props: any) => {
 
     const { title } = props.route.params as {title: string}
     const allPlants = useSelector((state: Istate) => state.plants)
     const selectedPlant = allPlants.filter(item => item.name === title)[0]
+
+    checkIfFav(selectedPlant.id)
 
     return (
         <ScrollView style={styles.root}>
@@ -17,6 +24,7 @@ const PlantDetail: FC = (props: any) => {
             </View>
 
             <View style={{...styles.info, flex: 2}}>
+                <Text> {`${checkIfFav(selectedPlant.id)}`} </Text>
                 <Text style={{fontFamily: 'monsBold', marginBottom: 15, color: '#62BD69', fontSize: 23}} > {selectedPlant.name} </Text>
                 <Text style={{fontFamily: 'monsReg', marginBottom: 20, fontSize: 16}} > {selectedPlant.description} </Text>
                 <Text style={{fontFamily: 'monsReg', marginBottom: 20, fontSize: 16}} > <Text style={{color: '#62BD69'}} > Type: </Text> {selectedPlant.type} </Text>

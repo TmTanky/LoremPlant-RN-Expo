@@ -16,11 +16,31 @@ export const addToFavorites = (plantName: string, plantId: string) => {
 
         db.transaction((tx) => {
             tx.executeSql(sql, [plantId, plantName, plantId],
-                (_, res) => {
-                    console.log(res)
-                }
+                (_, res) => { }
             )
         })
+
+    }
+
+}
+
+export const deleteFavorites = (plantIds: string[]) => {
+
+    return async (dispatch: ThunkDispatch<Istate, null, AnyAction>) => {
+
+        const sql = 'DELETE FROM plantFav WHERE id = (?);'
+
+        db.transaction((tx) => {
+
+            plantIds.map(item => {
+                tx.executeSql(sql, [item],
+                    (_, res) => {  }
+                )
+            })
+
+        })
+
+        dispatch(loadFavorites())
 
     }
 

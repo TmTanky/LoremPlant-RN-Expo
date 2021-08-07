@@ -21,3 +21,40 @@ export const initialized = async () => {
     return setUp
 
 }
+
+export const checkIfFav = (id: string) => {
+
+    const sql = 'SELECT plantId FROM plantFav WHERE plantId = ?'
+
+    return db.transaction(async tx => {
+        
+        try {
+
+            const result = await new Promise((resolve, reject) => {
+
+                return tx.executeSql(sql, [id],
+    
+                    (tx, res) => {
+                        const convert = res.rows as unknown
+                        const { _array: data } = convert as { _array: string }
+                        
+                        if (data.length === 1) {
+                            return resolve(true)
+                        }
+    
+                        return reject(false)
+                    }
+                
+                )
+    
+            })
+
+            return result
+            
+        } catch (err) {
+            return err
+        }
+
+    })
+
+}

@@ -1,11 +1,14 @@
 import React, { useState, FC, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView } from 'react-native'
-import { Ionicons } from '@expo/vector-icons';
-import { useSelector } from "react-redux";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, KeyboardAvoidingView, ToastAndroid } from 'react-native'
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useSelector, useDispatch } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { DrawerActions } from "@react-navigation/routers";
 import { useNavigation } from "@react-navigation/core";
+
+// Redux
+import { addToFavorites } from "../../redux/actions/favorites";
 
 // Components
 import { customBtn } from "../../children_components/customBtns";
@@ -132,6 +135,9 @@ const Search = createStackNavigator()
 
 export const SearchSearch: FC = (props: any) => {
 
+    const allPlants = useSelector((state: Istate) => state.plants)
+    const dispatch = useDispatch()
+
     return (
         <Search.Navigator>
             <Search.Screen options={{
@@ -152,7 +158,9 @@ export const SearchSearch: FC = (props: any) => {
             }} name="tangina" component={SearchScreen} />
 
             <Search.Screen options={(props) => {
+
                 const { title } = props.route.params as { title: string }
+                const selectedPlant = allPlants.find(item => item.name === title)
 
                 return {
                     headerTitle: title,
@@ -162,6 +170,14 @@ export const SearchSearch: FC = (props: any) => {
                     headerTintColor: 'white',
                     headerTitleStyle: {
                         fontFamily: 'monsMed',
+                    },
+                    headerRight: () => {
+                        return <HeaderButtons HeaderButtonComponent={customBtn} >
+                            <Item title="save" iconName="star-outline" onPress={() => {
+                                dispatch(addToFavorites(selectedPlant!.name, selectedPlant!.id))
+                                ToastAndroid.showWithGravity('Added to Favorites!', ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+                            }} IconComponent={MaterialCommunityIcons} color="white" iconSize={25} />
+                        </HeaderButtons>
                     }
                 }
             }} name="jusmiyo" component={PlantFullDetails} /> 

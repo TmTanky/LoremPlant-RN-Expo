@@ -1,10 +1,10 @@
 import React, { useEffect, useState, FC } from "react";
 import { StyleSheet, FlatList, ToastAndroid } from 'react-native'
 import { createStackNavigator } from "@react-navigation/stack";
-import { Istate } from "../../ts/types";
 import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { DrawerActions } from "@react-navigation/routers";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 // Components
 import { customBtn } from "../../children_components/customBtns";
@@ -14,6 +14,9 @@ import { PlantItem } from "../../components/plants/plantItem";
 // Redux
 import { loadPlants } from "../../redux/actions/plants";
 import { addToFavorites } from "../../redux/actions/favorites";
+
+// Types
+import { Istate } from "../../ts/types";
 
 const HomeScreen: FC = (props: any) => {
 
@@ -93,7 +96,6 @@ export const HomeHome: FC = (props: any) => {
 
             <Home.Screen options={(props) => {
 
-                // console.log(getHeaderTitle(props.route))
                 const selectedPlant = allPlants.find(item => item.name === getHeaderTitle(props.route))
 
                 return {
@@ -109,8 +111,8 @@ export const HomeHome: FC = (props: any) => {
                         return <HeaderButtons HeaderButtonComponent={customBtn} >
                             <Item onPress={() => {
                                 dispatch(addToFavorites(selectedPlant!.name, selectedPlant!.id))
-                                ToastAndroid.showWithGravity('Added!', ToastAndroid.SHORT, ToastAndroid.BOTTOM)
-                            }} iconName="content-save" title="save" iconSize={25} color="white" />
+                                ToastAndroid.showWithGravity('Added to Favorites!', ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+                            }} iconName="star-outline" title="save" IconComponent={MaterialCommunityIcons} iconSize={25} color="white" />
                         </HeaderButtons>
                     }
                 }

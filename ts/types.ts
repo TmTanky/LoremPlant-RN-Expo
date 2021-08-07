@@ -14,6 +14,7 @@ export interface Istate {
     theme: mode
     plants: Iplant[]
     favs: IFav[]
+    editMode: boolean
 }
 
 export interface Iplant {

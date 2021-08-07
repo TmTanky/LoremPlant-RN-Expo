@@ -5,7 +5,7 @@ import { firebase } from '../../firebase/config'
 import { useDispatch } from 'react-redux'
 
 // Redux
-import { loginUser } from '../../redux/actions/actions'
+import { loginUser } from '../../redux/actions/auth'
 import { Iuser } from '../../ts/types';
 
 // Types
