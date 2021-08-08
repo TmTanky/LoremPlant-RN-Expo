@@ -4,7 +4,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { DrawerActions } from "@react-navigation/routers";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as Notifications from 'expo-notifications'
+
+// Helpers
+import { schedulePushNotification, notifInit } from "../../helpers/notifications";
 
 // Components
 import { customBtn } from "../../children_components/customBtns";
@@ -13,10 +17,12 @@ import { PlantItem } from "../../components/plants/plantItem";
 
 // Redux
 import { loadPlants } from "../../redux/actions/plants";
-import { addToFavorites } from "../../redux/actions/favorites";
+import { addToFavorites , removeFavorites } from "../../redux/actions/favorites";
 
 // Types
 import { Istate } from "../../ts/types";
+
+notifInit()
 
 const HomeScreen: FC = (props: any) => {
 
@@ -27,6 +33,12 @@ const HomeScreen: FC = (props: any) => {
     useEffect(() => {
 
         dispatch(loadPlants())
+        
+        const pushNotif = async () => {
+            await schedulePushNotification('Welcome to LoremPlant', 'Enjoy the App.')
+        }
+
+        pushNotif()
 
     }, [])
     
@@ -73,6 +85,7 @@ export const HomeHome: FC = (props: any) => {
 
     const dispatch = useDispatch()
     const allPlants = useSelector((state: Istate) => state.plants).slice(0, 5)
+    const allFavs = useSelector((state: Istate) => state.favs)
 
     return (
         <Home.Navigator>
@@ -97,6 +110,7 @@ export const HomeHome: FC = (props: any) => {
             <Home.Screen options={(props) => {
 
                 const selectedPlant = allPlants.find(item => item.name === getHeaderTitle(props.route))
+                const isFav = allFavs.find(item => item.name === getHeaderTitle(props.route))
 
                 return {
                     headerTitle: getHeaderTitle(props.route),
@@ -110,9 +124,13 @@ export const HomeHome: FC = (props: any) => {
                     headerRight: () => {
                         return <HeaderButtons HeaderButtonComponent={customBtn} >
                             <Item onPress={() => {
+
+                                ToastAndroid.showWithGravity(`${!isFav ? 'Added' : 'Removed'} to Favorites!`, ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+                                
+                                isFav ? dispatch(removeFavorites(selectedPlant!.id)) :
                                 dispatch(addToFavorites(selectedPlant!.name, selectedPlant!.id))
-                                ToastAndroid.showWithGravity('Added to Favorites!', ToastAndroid.SHORT, ToastAndroid.BOTTOM)
-                            }} iconName="star-outline" title="save" IconComponent={MaterialCommunityIcons} iconSize={25} color="white" />
+
+                            }} iconName={ isFav ? 'star' : 'star-outline' } title="save" IconComponent={MaterialCommunityIcons} iconSize={25} color="white" />
                         </HeaderButtons>
                     }
                 }

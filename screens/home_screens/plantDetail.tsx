@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { View, Text, Image, ScrollView, StyleSheet } from 'react-native'
 import { useSelector } from "react-redux";
 
@@ -14,7 +14,26 @@ const PlantDetail: FC = (props: any) => {
     const allPlants = useSelector((state: Istate) => state.plants)
     const selectedPlant = allPlants.filter(item => item.name === title)[0]
 
-    checkIfFav(selectedPlant.id)
+    // const tae = checkIfFav(selectedPlant.id).then(res => {
+    //     console.log(res)
+    // })
+    // console.log(tae)
+    // console.log(isAboveFive(4))
+
+    // const pwet = async () => {
+    //     const res = await checkIfFav(selectedPlant.id).then(tae => {
+    //         return tae
+    //     })
+
+    //     return res
+    // }
+
+    // pwet().catch(err => err)
+
+    // const pepe = pwet().catch(err => err)
+    // console.log(pwet())
+
+    // console.log(pwet())
 
     return (
         <ScrollView style={styles.root}>
@@ -24,7 +43,7 @@ const PlantDetail: FC = (props: any) => {
             </View>
 
             <View style={{...styles.info, flex: 2}}>
-                <Text> {`${checkIfFav(selectedPlant.id)}`} </Text>
+                {/* <Text> {`${checkIfFav(selectedPlant.id)}`} </Text> */}
                 <Text style={{fontFamily: 'monsBold', marginBottom: 15, color: '#62BD69', fontSize: 23}} > {selectedPlant.name} </Text>
                 <Text style={{fontFamily: 'monsReg', marginBottom: 20, fontSize: 16}} > {selectedPlant.description} </Text>
                 <Text style={{fontFamily: 'monsReg', marginBottom: 20, fontSize: 16}} > <Text style={{color: '#62BD69'}} > Type: </Text> {selectedPlant.type} </Text>

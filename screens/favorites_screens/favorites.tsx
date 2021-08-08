@@ -1,10 +1,11 @@
 import React, { useEffect, FC, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Modal, ScrollView } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native'
 import { createStackNavigator } from "@react-navigation/stack";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { DrawerActions } from "@react-navigation/routers";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/core";
+import Modal from 'react-native-modal'
 
 // Redux
 import { loadFavorites, deleteFavorites } from "../../redux/actions/favorites";
@@ -22,6 +23,7 @@ const FavoritesScreen: FC = (props) => {
     const nav = useNavigation()
     const allFavs = useSelector((state: Istate) => state.favs)
     const isEdit = useSelector((state: Istate) => state.editMode)
+    const [modalState, setModalState] = useState(false)
     const [selectedItems, setSelectedItems] = useState<string[]>([])
 
     useEffect(() => {
@@ -79,14 +81,9 @@ const FavoritesScreen: FC = (props) => {
                 <Text style={{fontFamily: 'monsReg'}} > {selectedItems.length} Items selected </Text>
                 <View style={styles.optionsBtns} >
                     <TouchableOpacity onPress={() => {
-                        dispatch(deleteFavorites([...selectedItems]))
-                        dispatch(toggleClose())
+                        setModalState(true)
                     }} style={{...styles.optionBtn, backgroundColor: 'red'}} >
                         <Text style={{fontFamily: 'monsReg', color: 'white'}}> Delete </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={{...styles.optionBtn, backgroundColor: 'whitesmoke'}} >
-                        <Text style={{fontFamily: 'monsReg'}}> Cancel </Text>
                     </TouchableOpacity>
                 </View>
             </View> }
@@ -114,6 +111,36 @@ const FavoritesScreen: FC = (props) => {
 
             }} />
 
+            <Modal coverScreen={false} style={{justifyContent: 'flex-end'}} isVisible={modalState}>
+                <View style={{ backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', height: 100, borderRadius: 8 }}>
+                    <Text style={{fontFamily: 'monsMed', fontSize: 18}}> Are you sure? </Text>
+                    <View style={{marginTop: 10, flexDirection: 'row'}}>
+                        <View style={{ marginHorizontal: 5, height: 25, width: 70, alignItems: 'center', justifyContent: 'center' }}>
+                            <TouchableOpacity onPress={() => {
+                                dispatch(deleteFavorites([...selectedItems]))
+                                dispatch(toggleClose())
+                                setModalState(false)
+                                ToastAndroid.showWithGravity(`${selectedItems.length} Items Deleted.`, ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+                            }}>
+                                <View >
+                                    <Text style={{fontFamily: 'monsReg', fontSize: 15, color: 'red'}}> Yes </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginHorizontal: 5, height: 25, width: 70, alignItems: 'center', justifyContent: 'center' }}>
+                            <TouchableOpacity onPress={() => {
+                                // dispatch(toggleClose())
+                                setModalState(false)
+                            }}>
+                                <View >
+                                    <Text style={{fontFamily: 'monsReg', fontSize: 15}}> No </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
         </View>
 
     )
@@ -139,10 +166,7 @@ export const FavScreenNavigator: FC = () => {
             
             <Favorite.Screen name="chou" initialParams={{
                 items: [] as string[]
-            }} options={(props) => {
-
-                // console.log(props)
-                // const { items } = props.route.params as { items: string[] }
+            }} options={() => {
 
                 return {
                     headerTitle: isEdit ? 'Edit Favorites' : 'Favorites',
@@ -159,13 +183,6 @@ export const FavScreenNavigator: FC = () => {
                         </HeaderButtons>
         
                     }
-                    // headerRight: () => {
-                    //     return (
-                    //         isEdit ? <HeaderButtons HeaderButtonComponent={customBtn} >
-                    //         <Item title="asdfaf" iconName="delete" color="white" onPress={() => console.log('asdfsadf')} iconSize={23} />
-                    //     </HeaderButtons> : null
-                    //     )
-                    // }
                 }
             }} component={FavoritesScreen} />
 

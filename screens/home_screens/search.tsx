@@ -8,7 +8,7 @@ import { DrawerActions } from "@react-navigation/routers";
 import { useNavigation } from "@react-navigation/core";
 
 // Redux
-import { addToFavorites } from "../../redux/actions/favorites";
+import { addToFavorites, removeFavorites } from "../../redux/actions/favorites";
 
 // Components
 import { customBtn } from "../../children_components/customBtns";
@@ -133,9 +133,15 @@ const styles = StyleSheet.create({
 
 const Search = createStackNavigator()
 
+function getHeaderTitle(route: any) {
+    const routeName = route.params.title
+    return routeName
+}
+
 export const SearchSearch: FC = (props: any) => {
 
     const allPlants = useSelector((state: Istate) => state.plants)
+    const allFavs = useSelector((state: Istate) => state.favs)
     const dispatch = useDispatch()
 
     return (
@@ -161,6 +167,7 @@ export const SearchSearch: FC = (props: any) => {
 
                 const { title } = props.route.params as { title: string }
                 const selectedPlant = allPlants.find(item => item.name === title)
+                const isFav = allFavs.find(item => item.name === getHeaderTitle(props.route))
 
                 return {
                     headerTitle: title,
@@ -173,9 +180,13 @@ export const SearchSearch: FC = (props: any) => {
                     },
                     headerRight: () => {
                         return <HeaderButtons HeaderButtonComponent={customBtn} >
-                            <Item title="save" iconName="star-outline" onPress={() => {
+                            <Item title="save" iconName={ isFav ? 'star' : 'star-outline' } onPress={() => {
+                                
+                                ToastAndroid.showWithGravity(`${!isFav ? 'Added' : 'Removed'} to Favorites!`, ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+                                
+                                isFav ? dispatch(removeFavorites(selectedPlant!.id)) :
                                 dispatch(addToFavorites(selectedPlant!.name, selectedPlant!.id))
-                                ToastAndroid.showWithGravity('Added to Favorites!', ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+
                             }} IconComponent={MaterialCommunityIcons} color="white" iconSize={25} />
                         </HeaderButtons>
                     }

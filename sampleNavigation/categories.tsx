@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { ToastAndroid } from "react-native";
 
 // Redux
-import { addToFavorites } from "../redux/actions/favorites"; 
+import { addToFavorites, removeFavorites } from "../redux/actions/favorites"; 
 
 // Types
 import { Istate } from "../ts/types";
@@ -22,10 +22,16 @@ import PlantFullDetails from "../components/plants/plantFullDetails";
 
 const Categories = createStackNavigator()
 
+function getHeaderTitle(route: any) {
+    const routeName = route.params.title
+    return routeName
+}
+
 export const CategoriesNavigator: FC = (props: any) => {
 
     const dispatch = useDispatch()
     const allPlants = useSelector((state: Istate) => state.plants)
+    const allFavs = useSelector((state: Istate) => state.favs)
 
     return (
         <Categories.Navigator>
@@ -67,6 +73,7 @@ export const CategoriesNavigator: FC = (props: any) => {
 
                 const { title } = props.route.params as { title: string }
                 const selectedPlant = allPlants.find(item => item.name === title)
+                const isFav = allFavs.find(item => item.name === getHeaderTitle(props.route))
 
                 return {
                     headerTitle: title,
@@ -80,9 +87,13 @@ export const CategoriesNavigator: FC = (props: any) => {
                     headerRight: () => {
                         return <HeaderButtons HeaderButtonComponent={customBtn}>
                             <Item title="save" onPress={() => {
+                                
+                                ToastAndroid.showWithGravity(`${!isFav ? 'Added' : 'Removed'} to Favorites!`, ToastAndroid.SHORT, ToastAndroid.BOTTOM)
+                                
+                                isFav ? dispatch(removeFavorites(selectedPlant!.id)) :
                                 dispatch(addToFavorites(selectedPlant!.name, selectedPlant!.id))
-                                ToastAndroid.showWithGravity('Added to Favorites!', ToastAndroid.SHORT, ToastAndroid.BOTTOM)
-                            }} iconSize={25} iconName="star-outline" color="white" IconComponent={MaterialCommunityIcons} />
+
+                            }} iconSize={25} iconName={ isFav ? 'star' : 'star-outline' } color="white" IconComponent={MaterialCommunityIcons} />
                         </HeaderButtons>
                     }
                 }

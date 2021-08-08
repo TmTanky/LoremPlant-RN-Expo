@@ -20,6 +20,28 @@ export const addToFavorites = (plantName: string, plantId: string) => {
             )
         })
 
+        dispatch(loadFavorites())
+
+    }
+
+}
+
+export const removeFavorites = (plantId: string) => {
+
+    return async (dispatch: ThunkDispatch<Istate, null, AnyAction>) => {
+
+        const sql = 'DELETE FROM plantFav WHERE id = (?);'
+
+        db.transaction((tx) => {
+
+            tx.executeSql(sql, [plantId],
+                (_, res) => { }
+            )
+
+        })
+
+        dispatch(loadFavorites())
+
     }
 
 }
